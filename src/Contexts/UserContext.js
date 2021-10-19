@@ -4,16 +4,13 @@ import { createContext } from "react";
 export const UserContext = createContext([]);
 
 export const UserProvider = ({ children }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [searchResults, setSearchResults] = useState("");
 
   return (
     <UserContext.Provider
       value={{
-        email,
-        password,
-        setEmail,
-        setPassword,
+        searchResults,
+        setSearchResults,
       }}
     >
       {children}
