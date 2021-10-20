@@ -13,6 +13,7 @@ export default function SearchBar() {
     const res = await axios.get(`${baseUrl}/${userSearch}`);
     setSearchResults(res.data.results);
     history.push("/data");
+    // agregar try and catch
   }
 
   return (
