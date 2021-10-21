@@ -6,6 +6,8 @@ export const TeamContext = createContext([]);
 export const TeamProvider = ({ children }) => {
   const [team, setTeam] = useState([]);
 
+  console.log("TEAM", team);
+
   // Limit of team members
   const teamLimit = 6;
 
@@ -32,8 +34,6 @@ export const TeamProvider = ({ children }) => {
 
     return false;
   };
-
-  console.log("TEAM", team);
 
   const addHero = (hero) => {
     switch (true) {
@@ -68,7 +68,6 @@ export const TeamProvider = ({ children }) => {
   const removeHero = (id) => {
     setTeam(team.filter((el) => el.id !== id));
   };
-
   // Calculate total powerstats
   const sumPowerstat = (powerstat) => {
     console.log("Argumento sumPowerstat:", powerstat);
@@ -84,7 +83,23 @@ export const TeamProvider = ({ children }) => {
     const reduce = team.reduce((acc, cur) => {
       return acc + parseInt(cur.appearance[checkAppearance][1]);
     }, 0);
-    return reduce / team.length;
+    return (reduce / team.length).toFixed(1);
+  };
+
+  // Getting max powerstat
+  const calcMax = () => {
+    const arr = [
+      { combate: sumPowerstat("combat") },
+      { resistencia: sumPowerstat("durability") },
+      { inteligencia: sumPowerstat("intelligence") },
+      { poder: sumPowerstat("power") },
+      { velocidad: sumPowerstat("speed") },
+      { fuerza: sumPowerstat("strength") },
+    ];
+    console.log("calcMax arr", arr);
+    const sort = arr.sort((a, b) => b - a);
+    console.log("calcMax sor", sort);
+    return Object.getOwnPropertyNames(sort[0]);
   };
 
   return (
@@ -96,6 +111,7 @@ export const TeamProvider = ({ children }) => {
         removeHero,
         sumPowerstat,
         calcAppearanceAverage,
+        calcMax,
       }}
     >
       {children}

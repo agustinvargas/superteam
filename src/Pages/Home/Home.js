@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TeamContext } from "../../Contexts/TeamContext";
 
 export default function Home() {
-  const { team, sumPowerstat, calcAppearanceAverage } = useContext(TeamContext);
+  const {
+    team,
+    // sumPowerstat,
+    // calcAppearanceAverage,
+    // mainStat,
+    calcAppearanceAverage,
+    sumPowerstat,
+    calcMax,
+  } = useContext(TeamContext);
 
   return (
     <div>
@@ -19,6 +27,7 @@ export default function Home() {
           <li>Total fuerza: {sumPowerstat("strength")}</li>
           <li>Peso promedio: {calcAppearanceAverage("weight")} kg</li>
           <li>Altura promedio: {calcAppearanceAverage("height")} cm</li>
+          <li>Powerstat más alto: {calcMax()}</li>
         </>
       ) : (
         <p>No hay nada en team</p>
