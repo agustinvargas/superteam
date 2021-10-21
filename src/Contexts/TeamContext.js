@@ -69,13 +69,22 @@ export const TeamProvider = ({ children }) => {
     setTeam(team.filter((el) => el.id !== id));
   };
 
-  // Calculate powerstat average team
+  // Calculate total powerstats
   const sumPowerstat = (powerstat) => {
     console.log("Argumento sumPowerstat:", powerstat);
     const reduce = team.reduce((acc, cur) => {
       return acc + parseInt(cur.powerstats[powerstat]);
     }, 0);
     return reduce;
+  };
+
+  // Calculate the average height and weight of the team
+  const calcAppearanceAverage = (checkAppearance) => {
+    console.log("Argumento calcAppearanceAverage:", checkAppearance);
+    const reduce = team.reduce((acc, cur) => {
+      return acc + parseInt(cur.appearance[checkAppearance][1]);
+    }, 0);
+    return reduce / team.length;
   };
 
   return (
@@ -86,6 +95,7 @@ export const TeamProvider = ({ children }) => {
         addHero,
         removeHero,
         sumPowerstat,
+        calcAppearanceAverage,
       }}
     >
       {children}
