@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { TeamContext } from "../../Contexts/TeamContext";
 import { UserContext } from "../../Contexts/UserContext";
 
@@ -20,6 +21,9 @@ export default function SearchGrid() {
           <Button onClick={() => addHero(el)}>AGREGAR</Button>
         </ul>
       ))}
+      <Button as={Link} to="/">
+        HOME
+      </Button>
     </div>
   );
 }

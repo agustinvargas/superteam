@@ -6,10 +6,13 @@ export const TeamContext = createContext([]);
 export const TeamProvider = ({ children }) => {
   const [team, setTeam] = useState([]);
 
+  // Limit of team members
+  const teamLimit = 6;
+
   // Validates functions
   // Validate that a character is already added
   const isAdded = (id) => team.some((el) => el.id === id);
-  // Validate the alignment hero (in the team, there must be three good heroes and three bad heroes)
+  // Validate the alignment hero (in the team, there must be three good character and three bad character)
   const alignmentCounts = (alignmentType) => {
     return team.filter((el) => el.biography.alignment === alignmentType).length;
   };
@@ -29,8 +32,6 @@ export const TeamProvider = ({ children }) => {
 
     return false;
   };
-  // Limit of team members
-  const teamLimit = 6;
 
   console.log("TEAM", team);
 
@@ -68,6 +69,15 @@ export const TeamProvider = ({ children }) => {
     setTeam(team.filter((el) => el.id !== id));
   };
 
+  // Calculate powerstat average team
+  const sumPowerstat = (powerstat) => {
+    console.log("Argumento sumPowerstat:", powerstat);
+    const reduce = team.reduce((acc, cur) => {
+      return acc + parseInt(cur.powerstats[powerstat]);
+    }, 0);
+    return reduce;
+  };
+
   return (
     <TeamContext.Provider
       value={{
@@ -75,6 +85,7 @@ export const TeamProvider = ({ children }) => {
         setTeam,
         addHero,
         removeHero,
+        sumPowerstat,
       }}
     >
       {children}

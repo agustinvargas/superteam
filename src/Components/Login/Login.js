@@ -20,8 +20,8 @@ export default function Login() {
         // Save user token in local storage
         const userToken = res.data.token;
         console.log(userToken);
-        setLogin(true);
         localStorage.setItem("userToken", userToken);
+        setLogin(true);
       })
       .catch((err) => console.error(err));
   }
