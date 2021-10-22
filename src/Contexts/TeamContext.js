@@ -89,17 +89,25 @@ export const TeamProvider = ({ children }) => {
   // Getting max powerstat
   const calcMax = () => {
     const arr = [
-      { combate: sumPowerstat("combat") },
-      { resistencia: sumPowerstat("durability") },
-      { inteligencia: sumPowerstat("intelligence") },
-      { poder: sumPowerstat("power") },
-      { velocidad: sumPowerstat("speed") },
-      { fuerza: sumPowerstat("strength") },
+      { powerstat: "combate", value: sumPowerstat("combat") },
+      { powerstat: "resistencia", value: sumPowerstat("durability") },
+      { powerstat: "inteligencia", value: sumPowerstat("intelligence") },
+      { powerstat: "poder", value: sumPowerstat("power") },
+      { powerstat: "velocidad", value: sumPowerstat("speed") },
+      { powerstat: "fuerza", value: sumPowerstat("strength") },
     ];
     console.log("calcMax arr", arr);
-    const sort = arr.sort((a, b) => b - a);
+    const sort = arr.sort((a, b) => {
+      if (a.value < b.value) {
+        return 1;
+      }
+      if (a.value > b.value) {
+        return -1;
+      }
+      return 0;
+    });
     console.log("calcMax sor", sort);
-    return Object.getOwnPropertyNames(sort[0]);
+    return sort[0].powerstat;
   };
 
   return (

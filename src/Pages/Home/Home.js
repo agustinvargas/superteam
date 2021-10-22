@@ -1,19 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TeamContext } from "../../Contexts/TeamContext";
 
 export default function Home() {
-  const {
-    team,
-    // sumPowerstat,
-    // calcAppearanceAverage,
-    // mainStat,
-    calcAppearanceAverage,
-    sumPowerstat,
-    calcMax,
-  } = useContext(TeamContext);
-
+  const { team, calcAppearanceAverage, sumPowerstat, calcMax } =
+    useContext(TeamContext);
   return (
     <div>
       {team.length > 0 ? (

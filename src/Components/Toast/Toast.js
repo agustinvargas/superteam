@@ -7,7 +7,7 @@ export default function Toasts({ header, body }) {
   if (show) {
     return (
       <ToastContainer className="p-3" position="bottom-center">
-        <Toast bg="dark" onClose={() => setShow(false)} delay={3200} autohide>
+        <Toast bg="dark" onClose={() => setShow(false)} delay={3500} autohide>
           <Toast.Header closeButton={true}>
             <strong className="me-auto">{header}</strong>
           </Toast.Header>
