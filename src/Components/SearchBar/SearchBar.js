@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import { Col, Form, Button, Row } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { UserContext } from "../../Contexts/UserContext";
+import Toasts from "../Toast/Toast";
 
 export default function SearchBar() {
   const { setSearchResults } = useContext(UserContext);
@@ -68,7 +69,10 @@ export default function SearchBar() {
               <Button type="submit">Buscar</Button>
             </Col>
           </Row>
-          {touched.search && errors.search && <div>{errors.search}</div>}
+          {/* {touched.search && errors.search && <div>{errors.search}</div>} */}
+          {touched.search && errors.search && (
+            <Toasts header="Error" body={errors.search} />
+          )}
         </Form>
       )}
     </Formik>

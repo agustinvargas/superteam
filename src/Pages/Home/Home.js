@@ -19,7 +19,7 @@ export default function Home() {
       {team.length > 0 ? (
         <>
           <ul>POWERSTATS</ul>
-          <li>Total cambate: {sumPowerstat("combat")}</li>
+          <li>Total combate: {sumPowerstat("combat")}</li>
           <li>Total resistencia: {sumPowerstat("durability")}</li>
           <li>Total inteligencia: {sumPowerstat("intelligence")}</li>
           <li>Total poder: {sumPowerstat("power")}</li>
