@@ -15,15 +15,17 @@ export default function SearchGrid() {
   return (
     <>
       <div>
-        {searchResults.map((el) => (
-          <ul key={el.id}>
-            <li>NOMBRE: {el.name}</li>
-            <li>
-              <img src={el.image.url} alt={el.name} />
-            </li>
-            <Button onClick={() => addHero(el)}>AGREGAR</Button>
-          </ul>
-        ))}
+        {searchResults
+          ? searchResults.map((el) => (
+              <ul key={el.id}>
+                <li>NOMBRE: {el.name}</li>
+                <li>
+                  <img src={el.image.url} alt={el.name} />
+                </li>
+                <Button onClick={() => addHero(el)}>AGREGAR</Button>
+              </ul>
+            ))
+          : null}
         {err ? (
           <div>
             <Toasts header={err.header} body={err.body} />{" "}
