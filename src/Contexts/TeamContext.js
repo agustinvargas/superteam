@@ -5,6 +5,7 @@ export const TeamContext = createContext([]);
 
 export const TeamProvider = ({ children }) => {
   const [team, setTeam] = useState([]);
+  const [err, setErr] = useState(false);
 
   console.log("TEAM", team);
 
@@ -35,28 +36,35 @@ export const TeamProvider = ({ children }) => {
     return false;
   };
 
+  // Add character to the team
   const addHero = (hero) => {
     switch (true) {
       case team.length === 0:
         setTeam([hero]);
         break;
       case team.length === teamLimit:
-        alert("Equipo completo");
+        setErr({
+          header: "Batiproblemas",
+          body: "Equipo completo",
+        });
         break;
       case isAdded(hero.id):
-        alert(
-          `${hero.name} ya está agregado en tu equipo. Por favor, seleccioná otro personaje`
-        );
+        setErr({
+          header: "Batiproblemas",
+          body: `${hero.name} ya está en tu equipo`,
+        });
         break;
       case alignmentCheck(hero) === "good limit":
-        alert(
-          "Ya tenés tres héroes en tu equipo. Es momento de agregar un villano"
-        );
+        setErr({
+          header: "Batiproblemas",
+          body: "Hay tres héroes en tu equipo. Es momento de agregar un villano",
+        });
         break;
       case alignmentCheck(hero) === "bad limit":
-        alert(
-          "Ya tenés tres villanos en tu equipo. Es momento de agregar un héroe"
-        );
+        setErr({
+          header: "Batiproblemas",
+          body: "Hay tres villanos en tu equipo. Es momento de agregar un héroe",
+        });
         break;
       default:
         setTeam([...team, hero]);
@@ -68,6 +76,7 @@ export const TeamProvider = ({ children }) => {
   const removeHero = (id) => {
     setTeam(team.filter((el) => el.id !== id));
   };
+
   // Calculate total powerstats
   const sumPowerstat = (powerstat) => {
     console.log("Argumento sumPowerstat:", powerstat);
@@ -83,10 +92,10 @@ export const TeamProvider = ({ children }) => {
     const reduce = team.reduce((acc, cur) => {
       return acc + parseInt(cur.appearance[checkAppearance][1]);
     }, 0);
-    return (reduce / team.length).toFixed(1);
+    return Math.round(reduce / team.length);
   };
 
-  // Getting max powerstat
+  // Get max powerstat
   const calcMax = () => {
     const arr = [
       { powerstat: "combate", value: sumPowerstat("combat") },
@@ -120,6 +129,8 @@ export const TeamProvider = ({ children }) => {
         sumPowerstat,
         calcAppearanceAverage,
         calcMax,
+        err,
+        setErr,
       }}
     >
       {children}
