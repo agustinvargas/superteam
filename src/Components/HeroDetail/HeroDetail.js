@@ -7,7 +7,7 @@ import Toasts from "../Toast/Toast";
 
 export default function HeroDetail() {
   const { heroId } = useParams();
-  const { err, setErr } = useContext(TeamContext);
+  const { notif, setNotif } = useContext(TeamContext);
   const [hero, setHero] = useState(null);
   const [loader, setLoader] = useState(false);
 
@@ -22,13 +22,13 @@ export default function HeroDetail() {
         if (res.data.response === "success") {
           setHero(res.data);
         } else {
-          setErr({
+          setNotif({
             header: "Batiproblemas",
             body: "No se encontró ningún héroe",
           });
         }
       } catch (error) {
-        setErr({
+        setNotif({
           header: "API problemas",
           body: `${error}`,
         });
@@ -38,7 +38,7 @@ export default function HeroDetail() {
       }
     }
     gettingAPI();
-  }, [heroId, setErr]);
+  }, [heroId, setNotif]);
 
   return loader ? (
     <Loader />
@@ -53,6 +53,6 @@ export default function HeroDetail() {
       <li>LUGAR DE TRABAJO: {hero.work.base}</li>
     </ul>
   ) : (
-    <Toasts header={err.header} body={err.body} />
+    <Toasts header={notif.header} body={notif.body} />
   );
 }

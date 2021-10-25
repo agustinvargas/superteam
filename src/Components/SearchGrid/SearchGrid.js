@@ -7,11 +7,10 @@ import Toasts from "../Toast/Toast";
 
 export default function SearchGrid() {
   const { searchResults } = useContext(UserContext);
-  const { team, addHero, err } = useContext(TeamContext);
+  const { team, addHero, notif } = useContext(TeamContext);
   console.log("DATOS DE LA BUSQUEDA", searchResults);
 
   console.log(team);
-  console.log("que es err", err);
   return (
     <>
       <div>
@@ -26,11 +25,7 @@ export default function SearchGrid() {
               </ul>
             ))
           : null}
-        {err ? (
-          <div>
-            <Toasts header={err.header} body={err.body} />{" "}
-          </div>
-        ) : null}
+        {notif && <Toasts header={notif.header} body={notif.body} />}
         <Button as={Link} to="/">
           HOME
         </Button>

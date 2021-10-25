@@ -11,7 +11,7 @@ import LoaderBtn from "../Loader/LoaderBtn";
 export default function SearchBar() {
   const [loader, setLoader] = useState(false);
   const { setSearchResults } = useContext(UserContext);
-  const { err, setErr } = useContext(TeamContext);
+  const { notif, setNotif } = useContext(TeamContext);
   const history = useHistory();
 
   // Get Superhero API by user search
@@ -26,13 +26,13 @@ export default function SearchBar() {
         setSearchResults(data);
         history.push("/data");
       } else {
-        setErr({
+        setNotif({
           header: "Batiproblemas",
           body: "No se encontraron resultados. Intentá buscando otro personaje",
         });
       }
     } catch (error) {
-      setErr({
+      setNotif({
         header: "API problemas",
         body: `${error}`,
       });
@@ -91,11 +91,15 @@ export default function SearchBar() {
               />
             </Col>
             <Col xs="auto" className="my-1">
-              {loader ? <LoaderBtn /> : <Button type="submit">Buscar</Button>}
+              {loader ? (
+                <LoaderBtn text="Buscando" />
+              ) : (
+                <Button type="submit">Buscar</Button>
+              )}
             </Col>
           </Row>
           {touched.search && errors.search && <small>{errors.search}</small>}
-          {err && <Toasts header={err.header} body={err.body} />}
+          {notif && <Toasts header={notif.header} body={notif.body} />}
         </Form>
       )}
     </Formik>

@@ -14,36 +14,36 @@ export default function Chart({
   const data = [
     {
       powerstat: "combate",
-      value: parseInt(combat),
+      "Total stat": parseInt(combat),
     },
     {
       powerstat: "resistencia",
-      value: parseInt(durability),
+      "Total stat": parseInt(durability),
     },
     {
       powerstat: "inteligencia",
-      value: parseInt(intelligence),
+      "Total stat": parseInt(intelligence),
     },
     {
       powerstat: "poder",
-      value: parseInt(power),
+      "Total stat": parseInt(power),
     },
     {
       powerstat: "velocidad",
-      value: parseInt(speed),
+      "Total stat": parseInt(speed),
     },
     {
       powerstat: "fuerza",
-      value: parseInt(strength),
+      "Total stat": parseInt(strength),
     },
   ];
   return (
     <ResponsiveRadar
       data={data}
-      keys={["value"]}
+      keys={["Total stat"]}
       indexBy="powerstat"
-      valueFormat=">-.0f"
-      margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
+      // valueFormat=">-.0f"
+      margin={{ top: 70, right: 80, bottom: 45, left: 80 }}
       borderColor={{ from: "color" }}
       gridLabelOffset={36}
       dotSize={10}

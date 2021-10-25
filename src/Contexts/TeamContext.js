@@ -5,7 +5,7 @@ export const TeamContext = createContext([]);
 
 export const TeamProvider = ({ children }) => {
   const [team, setTeam] = useState([]);
-  const [err, setErr] = useState(false);
+  const [notif, setNotif] = useState(false);
 
   console.log("TEAM", team);
 
@@ -41,33 +41,53 @@ export const TeamProvider = ({ children }) => {
     switch (true) {
       case team.length === 0:
         setTeam([hero]);
-        break;
-      case team.length === teamLimit:
-        setErr({
-          header: "Batiproblemas",
-          body: "Equipo completo",
-        });
+        if (teamLimit - 1 - team.length === 0) {
+          setNotif({
+            header: `Agregaste a ${hero.name} a tu equpo `,
+            body: "Completaste tu equipo",
+          });
+        } else {
+          setNotif({
+            header: `Agregaste a ${hero.name} a tu equpo `,
+            body: `Tenés que agregar a ${
+              teamLimit - 1 - team.length
+            } personaje/s más`,
+          });
+        }
         break;
       case isAdded(hero.id):
-        setErr({
+        setNotif({
           header: "Batiproblemas",
           body: `${hero.name} ya está en tu equipo`,
         });
         break;
       case alignmentCheck(hero) === "good limit":
-        setErr({
+        setNotif({
           header: "Batiproblemas",
           body: "Hay tres héroes en tu equipo. Es momento de agregar un villano",
         });
         break;
       case alignmentCheck(hero) === "bad limit":
-        setErr({
+        setNotif({
           header: "Batiproblemas",
           body: "Hay tres villanos en tu equipo. Es momento de agregar un héroe",
         });
         break;
       default:
         setTeam([...team, hero]);
+        if (teamLimit - 1 - team.length === 0) {
+          setNotif({
+            header: `Agregaste a ${hero.name} a tu equpo `,
+            body: "Completaste tu equipo",
+          });
+        } else {
+          setNotif({
+            header: `Agregaste a ${hero.name} a tu equpo `,
+            body: `Tenés que agregar a ${
+              teamLimit - 1 - team.length
+            } personaje/s más`,
+          });
+        }
         break;
     }
   };
@@ -129,8 +149,8 @@ export const TeamProvider = ({ children }) => {
         sumPowerstat,
         calcAppearanceAverage,
         calcMax,
-        err,
-        setErr,
+        notif,
+        setNotif,
       }}
     >
       {children}
