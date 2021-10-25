@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
+import Loader from "../Loader/Loader";
 
 export default function HeroDetail() {
+  const initialState = null;
   const { heroId } = useParams();
-  const [hero, setHero] = useState([]);
+  const [hero, setHero] = useState(initialState);
 
   useEffect(() => {
     async function gettingAPI() {
-      const baseUrl = "https://www.superheroapi.com/api/10228035059441005";
-      const res = await axios.get(`${baseUrl}/${heroId}`);
-      // agregar try and catch
-      console.log(res.data);
-      return setHero(res.data);
+      try {
+        const baseUrl = "https://www.superheroapi.com/api/10228035059441005";
+        const res = await axios.get(`${baseUrl}/${heroId}`);
+        console.log(res.data);
+        return setHero(res.data);
+      } catch (error) {
+        console.log(error.response);
+      }
     }
     gettingAPI();
   }, [heroId]);
 
-  return hero && hero.id === heroId ? (
+  return hero === initialState ? (
+    <Loader />
+  ) : hero && hero.id === heroId ? (
     <ul key={hero.id}>
       <li>PESO: {hero.appearance.weight[1]}</li>
       <li>ALTURA: {hero.appearance.height[1]}</li>
