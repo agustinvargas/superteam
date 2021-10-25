@@ -1,28 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import Loader from "../Loader/Loader";
+import { TeamContext } from "../../Contexts/TeamContext";
+import Toasts from "../Toast/Toast";
 
 export default function HeroDetail() {
-  const initialState = null;
   const { heroId } = useParams();
-  const [hero, setHero] = useState(initialState);
+  const { err, setErr } = useContext(TeamContext);
+  const [hero, setHero] = useState(null);
+  const [loader, setLoader] = useState(false);
 
+  // Get Superhero API by character ID
   useEffect(() => {
     async function gettingAPI() {
       try {
+        setLoader(true);
         const baseUrl = "https://www.superheroapi.com/api/10228035059441005";
         const res = await axios.get(`${baseUrl}/${heroId}`);
-        console.log(res.data);
-        return setHero(res.data);
+        console.log("ESO ES RES.DATA", res.data);
+        if (res.data.response === "success") {
+          setHero(res.data);
+        } else {
+          setErr({
+            header: "Batiproblemas",
+            body: "No se encontró ningún héroe",
+          });
+        }
       } catch (error) {
+        setErr({
+          header: "API problemas",
+          body: `${error}`,
+        });
         console.log(error.response);
+      } finally {
+        setLoader(false);
       }
     }
     gettingAPI();
-  }, [heroId]);
+  }, [heroId, setErr]);
 
-  return hero === initialState ? (
+  return loader ? (
     <Loader />
   ) : hero && hero.id === heroId ? (
     <ul key={hero.id}>
@@ -35,6 +53,6 @@ export default function HeroDetail() {
       <li>LUGAR DE TRABAJO: {hero.work.base}</li>
     </ul>
   ) : (
-    <p>NO HAY NADA</p>
+    <Toasts header={err.header} body={err.body} />
   );
 }

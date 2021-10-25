@@ -14,7 +14,7 @@ export default function SearchBar() {
   const { err, setErr } = useContext(TeamContext);
   const history = useHistory();
 
-  // Get Superhero API
+  // Get Superhero API by user search
   async function gettingAPI(userSearch) {
     try {
       setLoader(true);
