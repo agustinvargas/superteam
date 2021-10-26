@@ -7,7 +7,7 @@ export default function Toasts({ header, body }) {
   if (notif) {
     return (
       <ToastContainer className="p-3 position-fixed" position="bottom-end">
-        <Toast onClose={() => setNotif(false)}>
+        <Toast onClose={() => setNotif(false)} delay={2500} autohide>
           <Toast.Header>
             <strong className="me-auto">{header}</strong>
           </Toast.Header>

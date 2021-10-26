@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { useHistory } from "react-router";
 import { TeamContext } from "../../Contexts/TeamContext";
 import { UserContext } from "../../Contexts/UserContext";
 import Toasts from "../Toast/Toast";
@@ -8,15 +9,16 @@ export default function SearchGrid() {
   const { search } = useContext(UserContext);
   const { team, addHero, notif } = useContext(TeamContext);
   console.log("DATOS DE LA BUSQUEDA", search);
+  const history = useHistory();
 
   console.log(team);
   return (
     <>
       <Container className="m-auto">
-        <h1 className="text-center my-5">
+        <h3 className="text-center my-5">
           Resultados para <strong>{search.value}</strong>:{" "}
           {search.results.length}
-        </h1>
+        </h3>
         <Row>
           {search.results
             ? search.results.map((el) => (
@@ -32,15 +34,7 @@ export default function SearchGrid() {
                   </Card>
                 </Col>
               ))
-            : //   <ul key={el.id}>
-              //     <li>NOMBRE: {el.name}</li>
-              //     <li>
-              //       <img src={el.image.url} alt={el.name} />
-              //     </li>
-              //     <Button onClick={() => addHero(el)}>AGREGAR</Button>
-              //   </ul>
-              // ))
-              null}
+            : history.push("/buscador")}
           {notif && <Toasts header={notif.header} body={notif.body} />}
         </Row>
       </Container>

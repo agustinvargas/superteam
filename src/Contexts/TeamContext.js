@@ -39,6 +39,12 @@ export const TeamProvider = ({ children }) => {
   // Add character to the team
   const addHero = (hero) => {
     switch (true) {
+      case team.length === teamLimit:
+        setNotif({
+          header: `No se pudo agregar a ${hero.name}`,
+          body: "Tu equipo ya está completo",
+        });
+        break;
       case team.length === 0:
         setTeam([hero]);
         if (teamLimit - 1 - team.length === 0) {
@@ -77,12 +83,12 @@ export const TeamProvider = ({ children }) => {
         setTeam([...team, hero]);
         if (teamLimit - 1 - team.length === 0) {
           setNotif({
-            header: `Agregaste a ${hero.name} a tu equpo `,
+            header: `Agregaste a ${hero.name} a tu equipo`,
             body: "Completaste tu equipo",
           });
         } else {
           setNotif({
-            header: `Agregaste a ${hero.name} a tu equpo `,
+            header: `Agregaste a ${hero.name} a tu equipo`,
             body: `Tenés que agregar a ${
               teamLimit - 1 - team.length
             } personaje/s más`,
@@ -93,8 +99,12 @@ export const TeamProvider = ({ children }) => {
   };
 
   // Remove a hero from the team
-  const removeHero = (id) => {
-    setTeam(team.filter((el) => el.id !== id));
+  const removeHero = (hero) => {
+    setTeam(team.filter((el) => el.id !== hero.id));
+    setNotif({
+      header: `Quitaste a ${hero.name} a tu equpo`,
+      body: `Tenés que agregar a ${teamLimit + 1 - team.length} personajes más`,
+    });
   };
 
   // Calculate total powerstats

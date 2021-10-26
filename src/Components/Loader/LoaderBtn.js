@@ -6,7 +6,7 @@ export default function LoaderBtn({ text }) {
     <Button className="w-100" variant="primary" disabled>
       <Spinner
         as="span"
-        animation="grow"
+        animation="border"
         size="sm"
         role="status"
         aria-hidden="true"

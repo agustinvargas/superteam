@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-// import { Form, Button } from "react-bootstrap";
 import { Button, Container, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../Contexts/UserContext";
 import { TeamContext } from "../../Contexts/TeamContext";
 import Toasts from "../Toast/Toast";
+import { useHistory } from "react-router-dom";
 import LoaderBtn from "../Loader/LoaderBtn";
 import "./Login.css";
 
@@ -13,6 +13,7 @@ export default function Login() {
   const [loader, setLoader] = useState(false);
   const { setLogin } = useContext(UserContext);
   const { notif, setNotif } = useContext(TeamContext);
+  const history = useHistory();
 
   // Post to Alkemy Challenge API
   async function posttingAPI() {
@@ -28,6 +29,7 @@ export default function Login() {
       console.log(userToken);
       localStorage.setItem("userToken", userToken);
       setLogin(true);
+      history.push("/");
     } catch (error) {
       setNotif({
         header: "API problemas",

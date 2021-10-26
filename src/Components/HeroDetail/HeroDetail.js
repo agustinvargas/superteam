@@ -4,6 +4,7 @@ import axios from "axios";
 import Loader from "../Loader/Loader";
 import { TeamContext } from "../../Contexts/TeamContext";
 import Toasts from "../Toast/Toast";
+import { Card, Col, Container, Row } from "react-bootstrap";
 
 export default function HeroDetail() {
   const { heroId } = useParams();
@@ -43,15 +44,28 @@ export default function HeroDetail() {
   return loader ? (
     <Loader />
   ) : hero && hero.id === heroId ? (
-    <ul key={hero.id}>
-      <li>PESO: {hero.appearance.weight[1]}</li>
-      <li>ALTURA: {hero.appearance.height[1]}</li>
-      <li>NOMBRE: {hero.name}</li>
-      <li>ALIAS: {hero.biography.aliases.join(", ")}</li>
-      <li>COLOR DE OJOS: {hero.appearance["eye-color"]}</li>
-      <li>COLOR DE CABELLO: {hero.appearance["hair-color"]}</li>
-      <li>LUGAR DE TRABAJO: {hero.work.base}</li>
-    </ul>
+    <Container key={hero.id}>
+      <Row className="shadow-lg my-5 p-3 row-bg m-2">
+        <Col className="p-4" md={3} key={hero.id}>
+          <Card className="shadow-sm border-0">
+            <Card.Img variant="top" src={hero.image.url} alt={hero.name} />
+            <Card.Body>
+              <Card.Title>{hero.name}</Card.Title>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col className="p-2 p-lg-5" md={9}>
+          <ul>
+            <li>Peso: {hero.appearance.weight[1]}</li>
+            <li>Altura: {hero.appearance.height[1]}</li>
+            <li>Alias: {hero.biography.aliases.join(", ")}</li>
+            <li>Color de ojos: {hero.appearance["eye-color"]}</li>
+            <li>Color de cabello: {hero.appearance["hair-color"]}</li>
+            <li>Lugar de trabajo: {hero.work.base}</li>
+          </ul>
+        </Col>
+      </Row>
+    </Container>
   ) : (
     <Toasts header={notif.header} body={notif.body} />
   );

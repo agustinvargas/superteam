@@ -1,30 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { TeamContext } from "../../Contexts/TeamContext";
 
 export default function NavBar() {
+  const { team } = useContext(TeamContext);
   return (
-    <Navbar
-      bg="light"
-      expand="lg"
-      className="px-3 px-lg-5 d-flex justify-content-between"
-    >
+    <Navbar bg="light" expand="lg" className="px-3 px-lg-5">
       <Navbar.Brand translate="no">
-        <Link exact to="/">
-          SuperHeroes
+        <Link
+          style={{ fontFamily: `"Noto Sans", sans serif`, fontWeight: "700" }}
+          exact
+          to="/"
+        >
+          superTeam
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
-      <Navbar.Collapse id="navbarScroll">
+      <Navbar.Collapse
+        id="navbarScroll"
+        className="d-lg-flex justify-content-end"
+      >
         <Nav className="mr-auto my-2 my-lg-0" navbarScroll>
-          <Nav.Link as={Link} to="/team">
-            HeroesTeam
-          </Nav.Link>
-          <Nav.Link as={Link} to="/search">
-            Search
-          </Nav.Link>
-          <Nav.Link as={Link} to="/search/results">
-            SearchGrid
+          {!(team && team.length === 0) && (
+            <>
+              <Nav.Link as={Link} to="/equipo">
+                Mi equipo
+              </Nav.Link>
+            </>
+          )}
+          <Nav.Link as={Link} to="/buscador">
+            Buscador
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Formik } from "formik";
-import { Col, Form, Button, Row } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { UserContext } from "../../Contexts/UserContext";
 import { TeamContext } from "../../Contexts/TeamContext";
@@ -27,7 +27,7 @@ export default function SearchBar() {
           value: userSearch,
           results: data,
         });
-        history.push("/search/results");
+        history.push("/resultados");
       } else {
         setNotif({
           header: "Batiproblemas",
@@ -78,29 +78,28 @@ export default function SearchBar() {
         touched,
       }) => (
         <Form onSubmit={handleSubmit}>
-          <Row className="align-items-center">
-            <Col sm={10} className="my-1">
-              <Form.Label htmlFor="searchForm" visuallyHidden>
-                Búsqueda
-              </Form.Label>
-              <Form.Control
-                id="searchForm"
-                placeholder="Buscá tu superhéroe"
-                name="search"
-                value={values.search}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="search"
-              />
-            </Col>
-            <Col xs="auto" className="my-1">
-              {loader ? (
-                <LoaderBtn text="Buscando" />
-              ) : (
-                <Button type="submit">Buscar</Button>
-              )}
-            </Col>
-          </Row>
+          <Form.Label htmlFor="searchForm" visuallyHidden>
+            Buscá un personaje
+          </Form.Label>
+          <Form.Control
+            id="searchForm"
+            placeholder="Buscar personaje"
+            name="search"
+            className="mb-2 mt-5"
+            value={values.search}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            type="search"
+          />
+
+          {loader ? (
+            <LoaderBtn text="Buscando" />
+          ) : (
+            <Button className="w-100 my-2" type="submit">
+              Buscar
+            </Button>
+          )}
+
           {touched.search && errors.search && <small>{errors.search}</small>}
           {notif && <Toasts header={notif.header} body={notif.body} />}
         </Form>

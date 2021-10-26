@@ -26,7 +26,7 @@ export default function TotalTeamStats() {
               <AlertBs
                 variant={"warning"}
                 text={"Tu equipo debe estar conformado por seis personajes"}
-                link={"/search"}
+                link={"/buscador"}
                 linkText={"Buscar más"}
               />
             ) : (
