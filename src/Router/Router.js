@@ -19,8 +19,8 @@ function Router() {
         <>
           <NavBar />
           <Switch>
+            <Route path="/search/results" component={SearchGrid} />
             <Route path="/search" component={SearchBar} />
-            <Route path="/data" component={SearchGrid} />
             <Route path="/team" component={HeroesTeam} />
             <Route path="/hero/:heroId" component={HeroDetail} />
             <Route exact path="/" component={Home} />

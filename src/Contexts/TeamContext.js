@@ -48,7 +48,7 @@ export const TeamProvider = ({ children }) => {
           });
         } else {
           setNotif({
-            header: `Agregaste a ${hero.name} a tu equpo `,
+            header: `Agregaste a ${hero.name} a tu equipo `,
             body: `Tenés que agregar a ${
               teamLimit - 1 - team.length
             } personaje/s más`,

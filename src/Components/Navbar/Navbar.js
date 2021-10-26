@@ -23,7 +23,7 @@ export default function NavBar() {
           <Nav.Link as={Link} to="/search">
             Search
           </Nav.Link>
-          <Nav.Link as={Link} to="/data">
+          <Nav.Link as={Link} to="/search/results">
             SearchGrid
           </Nav.Link>
         </Nav>

@@ -10,7 +10,7 @@ import LoaderBtn from "../Loader/LoaderBtn";
 
 export default function SearchBar() {
   const [loader, setLoader] = useState(false);
-  const { setSearchResults } = useContext(UserContext);
+  const { setSearch } = useContext(UserContext);
   const { notif, setNotif } = useContext(TeamContext);
   const history = useHistory();
 
@@ -23,8 +23,11 @@ export default function SearchBar() {
       const res = await axios.get(`${baseUrl}/${userSearch}`);
       const data = res.data.results;
       if (data) {
-        setSearchResults(data);
-        history.push("/data");
+        setSearch({
+          value: userSearch,
+          results: data,
+        });
+        history.push("/search/results");
       } else {
         setNotif({
           header: "Batiproblemas",
@@ -61,7 +64,7 @@ export default function SearchBar() {
       }}
       onSubmit={(val, { resetForm }) => {
         console.log(val);
-        console.log(val.search);
+        console.log("VAL.SEARCH", val.search);
         gettingAPI(val.search);
         resetForm();
       }}
