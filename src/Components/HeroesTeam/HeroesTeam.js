@@ -11,7 +11,7 @@ export default function HeroesTeam() {
   return (
     <Container>
       {team.map((el) => (
-        <Row className="shadow-lg my-5 p-3 row-bg">
+        <Row className="shadow-lg my-5 p-3 row-bg m-2">
           <Col className="p-4" md={5} key={el.id}>
             <Card className="shadow-sm border-0">
               <Card.Img variant="top" src={el.image.url} alt={el.name} />
@@ -19,7 +19,7 @@ export default function HeroesTeam() {
                 <Card.Title>{el.name}</Card.Title>
                 <div className="d-lg-flex align-items-center justify-content-between mt-3">
                   <Button
-                    className="btn btn--detail"
+                    className="mybtn mybtn--detail"
                     as={Link}
                     to={`/hero/${el.id}`}
                     variant="primary"
@@ -27,7 +27,7 @@ export default function HeroesTeam() {
                     Ver detalles
                   </Button>
                   <Button
-                    className="btn"
+                    className="mybtn"
                     onClick={() => removeHero(el.id)}
                     variant="danger"
                   >
@@ -37,7 +37,7 @@ export default function HeroesTeam() {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="p-5" md={7}>
+          <Col className="p-2 p-lg-5" md={7}>
             <div className="chart-container">
               <Chart
                 key={el.id}

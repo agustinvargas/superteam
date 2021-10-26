@@ -43,7 +43,7 @@ export const TeamProvider = ({ children }) => {
         setTeam([hero]);
         if (teamLimit - 1 - team.length === 0) {
           setNotif({
-            header: `Agregaste a ${hero.name} a tu equpo `,
+            header: `Agregaste a ${hero.name} a tu equipo `,
             body: "Completaste tu equipo",
           });
         } else {

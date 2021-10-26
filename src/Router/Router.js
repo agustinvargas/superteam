@@ -7,7 +7,7 @@ import NavBar from "../Components/Navbar/Navbar";
 import SearchBar from "../Components/SearchBar/SearchBar";
 import SearchGrid from "../Components/SearchGrid/SearchGrid";
 import { UserContext } from "../Contexts/UserContext";
-import Home from "../Pages/Home/Home";
+import HomePage from "../Pages/Home/HomePage";
 
 function Router() {
   const { login } = useContext(UserContext);
@@ -23,7 +23,7 @@ function Router() {
             <Route path="/search" component={SearchBar} />
             <Route path="/team" component={HeroesTeam} />
             <Route path="/hero/:heroId" component={HeroDetail} />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={HomePage} />
           </Switch>
         </>
       ) : (
