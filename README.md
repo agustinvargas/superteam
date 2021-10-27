@@ -4,7 +4,7 @@
 
 ## Screenshots
 
-![superTeam](https://res.cloudinary.com/dp2no7dm6/image/upload/v1635309527/alkemi%20challenge/SuperTeam_2_cajbge.gif)
+![superTeam](https://res.cloudinary.com/dp2no7dm6/image/upload/v1635310765/alkemi%20challenge/superteam2_kdtidp.gif)
 
 ## Demo
 
