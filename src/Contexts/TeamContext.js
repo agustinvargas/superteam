@@ -102,7 +102,7 @@ export const TeamProvider = ({ children }) => {
   const removeHero = (hero) => {
     setTeam(team.filter((el) => el.id !== hero.id));
     setNotif({
-      header: `Quitaste a ${hero.name} a tu equpo`,
+      header: `Quitaste a ${hero.name} de tu equipo`,
       body: `Tenés que agregar a ${teamLimit + 1 - team.length} personajes más`,
     });
   };

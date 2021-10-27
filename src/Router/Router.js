@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Footer from "../Components/Footer/Footer";
 import HeroDetail from "../Components/HeroDetail/HeroDetail";
 import HeroesTeam from "../Components/HeroesTeam/HeroesTeam";
 import Login from "../Components/Login/Login";
 import NavBar from "../Components/Navbar/Navbar";
-import SearchContainer from "../Components/SearchContainer/SearchContainer";
-import SearchGrid from "../Components/SearchGrid/SearchGrid";
+import SearchContainer from "../Components/Search/SearchContainer/SearchContainer";
+import SearchGrid from "../Components/Search/SearchGrid/SearchGrid";
 import { UserContext } from "../Contexts/UserContext";
 
 function Router() {
@@ -25,7 +24,6 @@ function Router() {
             <Route path="/equipo" component={HeroesTeam} />
             <Route exact path="/" component={HeroesTeam} />
           </Switch>
-          <Footer />
         </>
       ) : (
         <Route path="*" component={Login} />

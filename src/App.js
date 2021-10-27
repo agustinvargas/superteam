@@ -1,4 +1,3 @@
-import "./App.css";
 import Router from "./Router/Router";
 // Context
 import { UserProvider } from "./Contexts/UserContext";

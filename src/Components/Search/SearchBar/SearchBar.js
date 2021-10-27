@@ -3,10 +3,10 @@ import axios from "axios";
 import { Formik } from "formik";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { UserContext } from "../../Contexts/UserContext";
-import { TeamContext } from "../../Contexts/TeamContext";
-import Toasts from "../Toast/Toast";
-import LoaderBtn from "../Loader/LoaderBtn";
+import { UserContext } from "../../../Contexts/UserContext";
+import { TeamContext } from "../../../Contexts/TeamContext";
+import Toasts from "../../Toast/Toast";
+import LoaderBtn from "../../Loader/LoaderBtn";
 
 export default function SearchBar() {
   const [loader, setLoader] = useState(false);

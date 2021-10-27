@@ -3,7 +3,8 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TeamContext } from "../../Contexts/TeamContext";
 import Chart from "../Chart/Chart";
-import SearchContainer from "../SearchContainer/SearchContainer";
+import Footer from "../Footer/Footer";
+import SearchContainer from "../Search/SearchContainer/SearchContainer";
 import Toasts from "../Toast/Toast";
 import TotalTeamStats from "../TotalTeamStats/TotalTeamStats";
 import "./HeroesTeam.css";
@@ -58,6 +59,7 @@ export default function HeroesTeam() {
           </Row>
         ))}
         {notif && <Toasts header={notif.header} body={notif.body} />}
+        <Footer />
       </Container>
     </>
   ) : (

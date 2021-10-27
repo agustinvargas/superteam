@@ -16,7 +16,7 @@ export default function Login() {
   const history = useHistory();
 
   // Post to Alkemy Challenge API
-  async function posttingAPI() {
+  async function postingAPI() {
     try {
       setLoader(true);
       const baseUrl = "http://challenge-react.alkemy.org/";
@@ -74,7 +74,7 @@ export default function Login() {
         }}
         onSubmit={(val, { resetForm }) => {
           console.log(val);
-          posttingAPI();
+          postingAPI();
           resetForm();
         }}
       >

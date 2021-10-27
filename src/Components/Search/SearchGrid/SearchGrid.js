@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { TeamContext } from "../../Contexts/TeamContext";
-import { UserContext } from "../../Contexts/UserContext";
-import Toasts from "../Toast/Toast";
+import { TeamContext } from "../../../Contexts/TeamContext";
+import { UserContext } from "../../../Contexts/UserContext";
+import Toasts from "../../Toast/Toast";
 
 export default function SearchGrid() {
   const { search } = useContext(UserContext);

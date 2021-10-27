@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Container } from "react-bootstrap";
-import { TeamContext } from "../../Contexts/TeamContext";
+import { TeamContext } from "../../../Contexts/TeamContext";
 import SearchBar from "../SearchBar/SearchBar";
 import "./SearchContainer.css";
 

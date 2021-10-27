@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 
 export default function Footer() {
   return (
-    <Container fluid className="text-center py-3">
+    <Container className="text-center py-3">
       <small>
         Desarrollado por{" "}
         <a href="https://github.com/agustinvargas" target="__blank">
