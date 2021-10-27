@@ -7,8 +7,6 @@ export const TeamProvider = ({ children }) => {
   const [team, setTeam] = useState([]);
   const [notif, setNotif] = useState(false);
 
-  console.log("TEAM", team);
-
   // Limit of team members
   const teamLimit = 6;
 
@@ -109,7 +107,6 @@ export const TeamProvider = ({ children }) => {
 
   // Calculate total powerstats
   const sumPowerstat = (powerstat) => {
-    console.log("Argumento sumPowerstat:", powerstat);
     const reduce = team.reduce((acc, cur) => {
       return acc + parseInt(cur.powerstats[powerstat]);
     }, 0);
@@ -118,7 +115,6 @@ export const TeamProvider = ({ children }) => {
 
   // Calculate the average height and weight of the team
   const calcAppearanceAverage = (checkAppearance) => {
-    console.log("Argumento calcAppearanceAverage:", checkAppearance);
     const reduce = team.reduce((acc, cur) => {
       return acc + parseInt(cur.appearance[checkAppearance][1]);
     }, 0);
@@ -135,7 +131,6 @@ export const TeamProvider = ({ children }) => {
       { powerstat: "velocidad", value: sumPowerstat("speed") },
       { powerstat: "fuerza", value: sumPowerstat("strength") },
     ];
-    console.log("calcMax arr", arr);
     const sort = arr.sort((a, b) => {
       if (a.value < b.value) {
         return 1;
@@ -145,7 +140,6 @@ export const TeamProvider = ({ children }) => {
       }
       return 0;
     });
-    console.log("calcMax sor", sort);
     return sort[0].powerstat;
   };
 

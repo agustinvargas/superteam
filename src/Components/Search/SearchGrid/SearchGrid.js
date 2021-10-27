@@ -7,11 +7,9 @@ import Toasts from "../../Toast/Toast";
 
 export default function SearchGrid() {
   const { search } = useContext(UserContext);
-  const { team, addHero, notif } = useContext(TeamContext);
-  console.log("DATOS DE LA BUSQUEDA", search);
+  const { addHero, notif } = useContext(TeamContext);
   const history = useHistory();
 
-  console.log(team);
   return (
     <>
       <Container className="m-auto">

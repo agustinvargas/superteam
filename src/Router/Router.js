@@ -4,6 +4,7 @@ import HeroDetail from "../Components/HeroDetail/HeroDetail";
 import HeroesTeam from "../Components/HeroesTeam/HeroesTeam";
 import Login from "../Components/Login/Login";
 import NavBar from "../Components/Navbar/Navbar";
+import NotFound from "../Components/NotFound/NotFound";
 import SearchContainer from "../Components/Search/SearchContainer/SearchContainer";
 import SearchGrid from "../Components/Search/SearchGrid/SearchGrid";
 import { UserContext } from "../Contexts/UserContext";
@@ -23,6 +24,7 @@ function Router() {
             <Route path="/buscador" component={SearchContainer} />
             <Route path="/equipo" component={HeroesTeam} />
             <Route exact path="/" component={HeroesTeam} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </>
       ) : (

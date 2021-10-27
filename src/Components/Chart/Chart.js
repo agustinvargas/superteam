@@ -9,8 +9,6 @@ export default function Chart({
   speed,
   strength,
 }) {
-  console.log("CHART", combat);
-  console.log("CHART PARSEADO", parseInt(combat));
   const data = [
     {
       powerstat: "Combate",

@@ -19,7 +19,6 @@ export default function HeroDetail() {
         setLoader(true);
         const baseUrl = "https://www.superheroapi.com/api/10228035059441005";
         const res = await axios.get(`${baseUrl}/${heroId}`);
-        console.log("ESO ES RES.DATA", res.data);
         if (res.data.response === "success") {
           setHero(res.data);
         } else {
@@ -33,7 +32,6 @@ export default function HeroDetail() {
           header: "API problemas",
           body: `${error}`,
         });
-        console.log(error.response);
       } finally {
         setLoader(false);
       }

@@ -26,7 +26,6 @@ export default function Login() {
         password: "react",
       });
       const userToken = res.data.token;
-      console.log(userToken);
       localStorage.setItem("userToken", userToken);
       setLogin(true);
       history.push("/");
@@ -35,7 +34,6 @@ export default function Login() {
         header: "API problemas",
         body: `${error}`,
       });
-      console.error("ALKEMY API ERROR", error);
     } finally {
       setLoader(false);
     }
@@ -73,7 +71,6 @@ export default function Login() {
           return formErr;
         }}
         onSubmit={(val, { resetForm }) => {
-          console.log(val);
           postingAPI();
           resetForm();
         }}

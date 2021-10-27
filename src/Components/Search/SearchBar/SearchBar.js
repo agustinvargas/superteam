@@ -39,7 +39,6 @@ export default function SearchBar() {
         header: "API problemas",
         body: `${error}`,
       });
-      console.error("GETTING API ERROR", error);
     } finally {
       setLoader(false);
     }
@@ -63,8 +62,6 @@ export default function SearchBar() {
         return err;
       }}
       onSubmit={(val, { resetForm }) => {
-        console.log(val);
-        console.log("VAL.SEARCH", val.search);
         gettingAPI(val.search);
         resetForm();
       }}
