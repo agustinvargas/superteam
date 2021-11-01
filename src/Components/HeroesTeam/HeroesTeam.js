@@ -17,8 +17,8 @@ export default function HeroesTeam() {
       <TotalTeamStats />
       <Container>
         {team.map((el) => (
-          <Row className="shadow-lg my-5 p-3 row-bg m-2">
-            <Col className="p-4" md={5} key={el.id}>
+          <Row className="shadow-lg my-5 p-3 row-bg m-2" key={el.id}>
+            <Col className="p-4" md={5}>
               <Card className="shadow-sm border-0">
                 <Card.Img variant="top" src={el.image.url} alt={el.name} />
                 <Card.Body className="card--body">

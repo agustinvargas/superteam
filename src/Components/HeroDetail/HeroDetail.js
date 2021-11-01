@@ -17,7 +17,9 @@ export default function HeroDetail() {
     async function gettingAPI() {
       try {
         setLoader(true);
-        const baseUrl = "https://www.superheroapi.com/api/10228035059441005";
+        const baseUrl =
+          "https://www.superheroapi.com/api.php/10228035059441005";
+        // Path /api.php/ avoid some problems. In case of errors, try using "https://www.superheroapi.com/api/10228035059441005"
         const res = await axios.get(`${baseUrl}/${heroId}`);
         if (res.data.response === "success") {
           setHero(res.data);
@@ -44,7 +46,7 @@ export default function HeroDetail() {
   ) : hero && hero.id === heroId ? (
     <Container key={hero.id}>
       <Row className="shadow-lg my-5 p-3 row-bg m-2">
-        <Col className="p-4" md={3} key={hero.id}>
+        <Col className="p-4" md={3}>
           <Card className="shadow-sm border-0">
             <Card.Img variant="top" src={hero.image.url} alt={hero.name} />
             <Card.Body>

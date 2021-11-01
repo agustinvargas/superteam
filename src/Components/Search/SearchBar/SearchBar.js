@@ -19,7 +19,8 @@ export default function SearchBar() {
     try {
       setLoader(true);
       const baseUrl =
-        "https://www.superheroapi.com/api/10228035059441005/search";
+        "https://www.superheroapi.com/api.php/10228035059441005/search";
+      // Path /api.php/ avoid some problems. In case of errors, try using "https://www.superheroapi.com/api/10228035059441005"
       const res = await axios.get(`${baseUrl}/${userSearch}`);
       const data = res.data.results;
       if (data) {

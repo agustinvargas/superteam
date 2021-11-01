@@ -36,6 +36,10 @@ export default function Login() {
       });
     } finally {
       setLoader(false);
+
+      // Uncomment the following lines to force login to avoid API errors and be able to navigate through the app
+      // setLogin(true);
+      // history.push("/");
     }
   }
 
