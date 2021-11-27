@@ -1,72 +1,68 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
-import axios from "axios";
-import Loader from "../Loader/Loader";
-import { TeamContext } from "../../Contexts/TeamContext";
-import Toasts from "../Toast/Toast";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import Loader from "../Loaders/Spinner/Loader";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import { baseUrl } from "../../Utils/APIs/superHero";
+import useNotify from "../../Hooks/useNotify";
 
 export default function HeroDetail() {
   const { heroId } = useParams();
-  const { notif, setNotif } = useContext(TeamContext);
   const [hero, setHero] = useState(null);
   const [loader, setLoader] = useState(false);
+  const notification = useNotify();
+  const history = useHistory();
 
-  // Get Superhero API by character ID
   useEffect(() => {
-    async function gettingAPI() {
+    async function getCharacter() {
       try {
         setLoader(true);
-        const baseUrl =
-          "https://www.superheroapi.com/api.php/10228035059441005";
-        // Path /api.php/ avoid some problems. In case of errors, try using "https://www.superheroapi.com/api/10228035059441005"
-        const res = await axios.get(`${baseUrl}/${heroId}`);
-        if (res.data.response === "success") {
-          setHero(res.data);
+        console.log("SE ACTIVO");
+        const query = baseUrl(heroId);
+        const res = await query.get();
+        const data = res["data"];
+        if (data.response === "success") {
+          setHero(data);
         } else {
-          setNotif({
-            header: "Batiproblemas",
-            body: "No se encontró ningún héroe",
-          });
+          console.log("AAA");
+          notification.add("Batiproblemas", "No se encontró personaje");
+          history.push("/");
         }
-      } catch (error) {
-        setNotif({
-          header: "API problemas",
-          body: `${error}`,
-        });
+      } catch (err) {
+        notification.add("API problemas", `${err}`);
+        history.push("/");
       } finally {
         setLoader(false);
       }
     }
-    gettingAPI();
-  }, [heroId, setNotif]);
+    getCharacter();
+  }, [heroId, history, notification]);
 
   return loader ? (
     <Loader />
-  ) : hero && hero.id === heroId ? (
-    <Container key={hero.id}>
-      <Row className="shadow-lg my-5 p-3 row-bg m-2">
-        <Col className="p-4" md={3}>
-          <Card className="shadow-sm border-0">
-            <Card.Img variant="top" src={hero.image.url} alt={hero.name} />
-            <Card.Body>
-              <Card.Title>{hero.name}</Card.Title>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col className="p-2 p-lg-5" md={9}>
-          <ul>
-            <li>Peso: {hero.appearance.weight[1]}</li>
-            <li>Altura: {hero.appearance.height[1]}</li>
-            <li>Alias: {hero.biography.aliases.join(", ")}</li>
-            <li>Color de ojos: {hero.appearance["eye-color"]}</li>
-            <li>Color de cabello: {hero.appearance["hair-color"]}</li>
-            <li>Lugar de trabajo: {hero.work.base}</li>
-          </ul>
-        </Col>
-      </Row>
-    </Container>
   ) : (
-    <Toasts header={notif.header} body={notif.body} />
+    hero?.id === heroId && (
+      <Container key={hero.id}>
+        <Row className="shadow-lg my-5 p-3 row-bg m-2">
+          <Col className="p-4" md={3}>
+            <Card className="shadow-sm border-0">
+              <Card.Img variant="top" src={hero.image.url} alt={hero.name} />
+              <Card.Body>
+                <Card.Title>{hero.name}</Card.Title>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="p-2 p-lg-5" md={9}>
+            <ul>
+              <li>Peso: {hero.appearance.weight[1]}</li>
+              <li>Altura: {hero.appearance.height[1]}</li>
+              <li>Alias: {hero.biography.aliases.join(", ")}</li>
+              <li>Color de ojos: {hero.appearance["eye-color"]}</li>
+              <li>Color de cabello: {hero.appearance["hair-color"]}</li>
+              <li>Lugar de trabajo: {hero.work.base}</li>
+            </ul>
+          </Col>
+        </Row>
+      </Container>
+    )
   );
 }

@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Container } from "react-bootstrap";
-import { TeamContext } from "../../../Contexts/TeamContext";
-import SearchBar from "../SearchBar/SearchBar";
-import "./SearchContainer.css";
+import SearchBar from "../../Components/Search/SearchBar/SearchBar";
+import useTeam from "../../Hooks/useTeam";
+import "./SearchPage.css";
 
-export default function SearchContainer() {
-  const { team } = useContext(TeamContext);
+export default function SearchPage() {
+  const { team } = useTeam();
   return (
     <div className="search-bg">
       <Container className="text-white">

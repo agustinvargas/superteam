@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { TeamContext } from "../../Contexts/TeamContext";
+import useTeam from "../../Hooks/useTeam";
 
 export default function NavBar() {
-  const { team } = useContext(TeamContext);
+  const { team } = useTeam();
   return (
     <Navbar bg="light" expand="lg" className="px-3 px-lg-5">
       <Navbar.Brand translate="no">
@@ -22,14 +22,13 @@ export default function NavBar() {
         className="d-lg-flex justify-content-end"
       >
         <Nav className="mr-auto my-2 my-lg-0" navbarScroll>
-          {!(team && team.length === 0) && (
-            <>
-              <Nav.Link as={Link} to="/equipo">
-                Mi equipo
-              </Nav.Link>
-            </>
+          {!(team?.length === 0) && (
+            // PROBAR TEAM?.LENGTH
+            <Nav.Link as={Link} to="/equipo">
+              Mi equipo
+            </Nav.Link>
           )}
-          <Nav.Link as={Link} to="/buscador">
+          <Nav.Link as={Link} to="/buscar">
             Buscador
           </Nav.Link>
         </Nav>

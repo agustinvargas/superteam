@@ -1,6 +1,7 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
 
+// probar positon absolute
 export default function Loader() {
   return (
     <div

@@ -1,49 +1,87 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
 import { Formik } from "formik";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { UserContext } from "../../../Contexts/UserContext";
-import { TeamContext } from "../../../Contexts/TeamContext";
-import Toasts from "../../Toast/Toast";
-import LoaderBtn from "../../Loader/LoaderBtn";
+import LoaderBtn from "../../Loaders/Button/LoaderBtn";
+import { baseUrl } from "../../../Utils/APIs/superHero";
+import useNotify from "../../../Hooks/useNotify";
+import { SearchContext } from "../../../Contexts/SearchProvider";
 
 export default function SearchBar() {
   const [loader, setLoader] = useState(false);
-  const { setSearch } = useContext(UserContext);
-  const { notif, setNotif } = useContext(TeamContext);
+  const { setKeyword } = useContext(SearchContext);
+  const { add } = useNotify();
   const history = useHistory();
 
-  // Get Superhero API by user search
-  async function gettingAPI(userSearch) {
+  console.log("-");
+
+  async function gettingAPI(searchKeyword) {
     try {
       setLoader(true);
-      const baseUrl =
-        "https://www.superheroapi.com/api.php/10228035059441005/search";
-      // Path /api.php/ avoid some problems. In case of errors, try using "https://www.superheroapi.com/api/10228035059441005"
-      const res = await axios.get(`${baseUrl}/${userSearch}`);
-      const data = res.data.results;
-      if (data) {
-        setSearch({
-          value: userSearch,
-          results: data,
+      console.log("--");
+      const query = baseUrl(`search/${searchKeyword}`);
+      const res = await query.get();
+      const characters = res.data.results;
+      if (characters) {
+        setKeyword({
+          value: searchKeyword,
+          results: characters,
         });
-        history.push("/resultados");
+        history.push(`/buscar/${searchKeyword}`);
       } else {
-        setNotif({
-          header: "Batiproblemas",
-          body: "No se encontraron resultados. Intentá buscando otro personaje",
-        });
+        add(
+          "Batiproblemas",
+          "No se encontraron resultados. Intentá buscando otro personaje"
+        );
+        // setNotify([
+        //   {
+        //     header: "Batiproblemas",
+        //     body: "No se encontraron resultados. Intentá buscando otro personaje",
+        //   },
+        // ]);
       }
-    } catch (error) {
-      setNotif({
-        header: "API problemas",
-        body: `${error}`,
-      });
+    } catch (err) {
+      // setNotify([
+      //   {
+      //     header: "API problemas",
+      //     body: `${err}`,
+      //   },
+      // ]);
     } finally {
       setLoader(false);
     }
   }
+
+  // Get Superhero API by user search
+  // async function gettingAPI(userSearch) {
+  //   try {
+  //     setLoader(true)(
+  //       // const baseUrl =
+  //       "https://www.superheroapi.com/api.php/10228035059441005/search"
+  //     );
+  //     const res = await axios.get(`${baseUrl}/${userSearch}`);
+  //     const data = res.data.results;
+  //     if (data) {
+  //       setSearch({
+  //         value: userSearch,
+  //         results: data,
+  //       });
+  //       history.push(`/buscar/${userSearch}`);
+  //     } else {
+  //       setNotif({
+  //         header: "Batiproblemas",
+  //         body: "No se encontraron resultados. Intentá buscando otro personaje",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     setNotif({
+  //       header: "API problemas",
+  //       body: `${error}`,
+  //     });
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
 
   return (
     <Formik
@@ -99,7 +137,6 @@ export default function SearchBar() {
           )}
 
           {touched.search && errors.search && <small>{errors.search}</small>}
-          {notif && <Toasts header={notif.header} body={notif.body} />}
         </Form>
       )}
     </Formik>

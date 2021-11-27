@@ -10,7 +10,7 @@ export default function Footer() {
           <strong>Agustín Vargas</strong>
         </a>
         <br />
-        Alkemy Challenge (React.js, Octubre 2021)
+        Alkemy Challenge (React.js, 2021)
       </small>
     </Container>
   );

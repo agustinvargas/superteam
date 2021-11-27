@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { createContext } from "react";
+import React, { createContext, useState } from "react";
+import useNotify from "../Hooks/useNotify";
 
-export const TeamContext = createContext([]);
+export const TeamContext = createContext();
 
-export const TeamProvider = ({ children }) => {
+export default function TeamProvider({ children }) {
   const [team, setTeam] = useState([]);
-  const [notif, setNotif] = useState(false);
+  const notify = useNotify();
 
   // Limit of team members
   const teamLimit = 6;
@@ -38,59 +38,52 @@ export const TeamProvider = ({ children }) => {
   const addHero = (hero) => {
     switch (true) {
       case team.length === teamLimit:
-        setNotif({
-          header: `No se pudo agregar a ${hero.name}`,
-          body: "Tu equipo ya está completo",
-        });
+        notify.add(
+          `No se pudo agregar a ${hero.name}`,
+          "Tu equipo ya está completo"
+        );
         break;
       case team.length === 0:
         setTeam([hero]);
         if (teamLimit - 1 - team.length === 0) {
-          setNotif({
-            header: `Agregaste a ${hero.name} a tu equipo `,
-            body: "Completaste tu equipo",
-          });
+          notify.add(
+            `Agregaste a ${hero.name} a tu equipo`,
+            "Completaste tu equipo"
+          );
         } else {
-          setNotif({
-            header: `Agregaste a ${hero.name} a tu equipo `,
-            body: `Tenés que agregar a ${
-              teamLimit - 1 - team.length
-            } personaje/s más`,
-          });
+          notify.add(
+            `Agregaste a ${hero.name} a tu equipo`,
+            `Tenés que agregar a ${teamLimit - 1 - team.length} personaje/s más`
+          );
         }
         break;
       case isAdded(hero.id):
-        setNotif({
-          header: "Batiproblemas",
-          body: `${hero.name} ya está en tu equipo`,
-        });
+        notify.add("Batiproblemas", `${hero.name} ya está en tu equipo`);
         break;
       case alignmentCheck(hero) === "good limit":
-        setNotif({
-          header: "Batiproblemas",
-          body: "Hay tres héroes en tu equipo. Es momento de agregar un villano",
-        });
+        notify.add(
+          "Batiproblemas",
+          "Hay tres héroes en tu equipo. Es momento de agregar un villano"
+        );
         break;
       case alignmentCheck(hero) === "bad limit":
-        setNotif({
-          header: "Batiproblemas",
-          body: "Hay tres villanos en tu equipo. Es momento de agregar un héroe",
-        });
+        notify.add(
+          "Batiproblemas",
+          "Hay tres villanos en tu equipo. Es momento de agregar un héroe"
+        );
         break;
       default:
         setTeam([...team, hero]);
         if (teamLimit - 1 - team.length === 0) {
-          setNotif({
-            header: `Agregaste a ${hero.name} a tu equipo`,
-            body: "Completaste tu equipo",
-          });
+          notify.add(
+            `Agregaste a ${hero.name} a tu equipo`,
+            "Completaste tu equipo"
+          );
         } else {
-          setNotif({
-            header: `Agregaste a ${hero.name} a tu equipo`,
-            body: `Tenés que agregar a ${
-              teamLimit - 1 - team.length
-            } personaje/s más`,
-          });
+          notify.add(
+            `Agregaste a ${hero.name} a tu equipo`,
+            `Tenés que agregar a ${teamLimit - 1 - team.length} personaje/s más`
+          );
         }
         break;
     }
@@ -99,10 +92,10 @@ export const TeamProvider = ({ children }) => {
   // Remove a hero from the team
   const removeHero = (hero) => {
     setTeam(team.filter((el) => el.id !== hero.id));
-    setNotif({
-      header: `Quitaste a ${hero.name} de tu equipo`,
-      body: `Tenés que agregar a ${teamLimit + 1 - team.length} personajes más`,
-    });
+    notify.add(
+      `Quitaste a ${hero.name} de tu equipo`,
+      `Tenés que agregar a ${teamLimit + 1 - team.length} personajes más`
+    );
   };
 
   // Calculate total powerstats
@@ -143,21 +136,17 @@ export const TeamProvider = ({ children }) => {
     return sort[0].powerstat;
   };
 
+  const contextValue = {
+    team,
+    // setTeam,
+    addHero,
+    removeHero,
+    sumPowerstat,
+    calcAppearanceAverage,
+    calcMax,
+  };
+
   return (
-    <TeamContext.Provider
-      value={{
-        team,
-        setTeam,
-        addHero,
-        removeHero,
-        sumPowerstat,
-        calcAppearanceAverage,
-        calcMax,
-        notif,
-        setNotif,
-      }}
-    >
-      {children}
-    </TeamContext.Provider>
+    <TeamContext.Provider value={contextValue}>{children}</TeamContext.Provider>
   );
-};
+}

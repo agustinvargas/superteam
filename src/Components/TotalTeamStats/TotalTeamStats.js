@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AlertBs from "../Alert/Alert";
 import Chart from "../Chart/Chart";
-import { TeamContext } from "../../Contexts/TeamContext";
+import useTeam from "../../Hooks/useTeam";
 
 export default function TotalTeamStats() {
-  const { team, calcAppearanceAverage, sumPowerstat, calcMax } =
-    useContext(TeamContext);
+  const { team, calcAppearanceAverage, sumPowerstat, calcMax } = useTeam();
 
   return (
     <Container>

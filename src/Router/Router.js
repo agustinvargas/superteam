@@ -1,35 +1,41 @@
-import React, { useContext } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import HeroDetail from "../Components/HeroDetail/HeroDetail";
-import HeroesTeam from "../Components/HeroesTeam/HeroesTeam";
-import Login from "../Components/Login/Login";
+import React from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import NavBar from "../Components/Navbar/Navbar";
-import NotFound from "../Components/NotFound/NotFound";
-import SearchContainer from "../Components/Search/SearchContainer/SearchContainer";
-import SearchGrid from "../Components/Search/SearchGrid/SearchGrid";
-import { UserContext } from "../Contexts/UserContext";
+import ToastList from "../Components/Toast/ToastList/ToastList";
+import HeroPage from "../Screens/HeroPage/HeroPage";
+import HomePage from "../Screens/HomePage/HomePage";
+import LoginPage from "../Screens/LoginPage/LoginPage";
+import NotFoundPage from "../Screens/NotFoundPage/NotFoundPage";
+import SearchPage from "../Screens/SearchPage/SearchPage";
+import SearchResultsPage from "../Screens/SearchResultsPage/SearchResultsPage";
+import TeamPage from "../Screens/TeamPage/TeamPage";
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
 
 function Router() {
-  const { login } = useContext(UserContext);
-
   return (
     <BrowserRouter>
-      {/* Validate that the user is loggedin or already has an access token so he/she can access whole site*/}
-      {login || localStorage.getItem("userToken") ? (
-        <>
-          <NavBar />
-          <Switch>
-            <Route path="/heroe/:heroId" component={HeroDetail} />
-            <Route path="/resultados" component={SearchGrid} />
-            <Route path="/buscador" component={SearchContainer} />
-            <Route path="/equipo" component={HeroesTeam} />
-            <Route exact path="/" component={HeroesTeam} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </>
-      ) : (
-        <Route path="*" component={Login} />
-      )}
+      <NavBar />
+      <Switch>
+        {/* Public routes */}
+        <PublicRoute exact path="/login" component={LoginPage} />
+        {/* Private routes */}
+        <PrivateRoute exact path="/" component={HomePage} />
+        <PrivateRoute exact path="/equipo" component={TeamPage} />
+        <PrivateRoute exact path="/buscar" component={SearchPage} />
+        <PrivateRoute
+          exact
+          path="/buscar/:keywordSearch"
+          component={SearchResultsPage}
+        />
+        <PrivateRoute path="/heroe/:heroId" component={HeroPage} />
+        {/* 404 Error */}
+        <Route exact path="/404" component={NotFoundPage} />
+        <Route path="*">
+          <Redirect to="/404" />
+        </Route>{" "}
+      </Switch>
+      <ToastList />
     </BrowserRouter>
   );
 }
