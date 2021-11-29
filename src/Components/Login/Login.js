@@ -6,6 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import useToast from "../../hooks/useToast";
 import { alkemyData, baseUrl } from "../../utils/api/alkemy";
 import { TOAST_ACTIONS } from "../../utils/reducers/toastReducer";
+import * as Yup from "yup";
 import "./Login.css";
 
 export default function Login() {
@@ -41,6 +42,17 @@ export default function Login() {
     }
   }
 
+  // Validate email and password
+  const schema = Yup.object().shape({
+    password: Yup.string()
+      .min(6, "La clave debe tener un mínimo de 6 caracteres")
+      .max(50, "La clave debe tener un máximo de 50 caracteres")
+      .required("Por favor, ingresá una clave"),
+    email: Yup.string()
+      .email("Por favor, ingresá un correo válido")
+      .required("Ingresá tu correo"),
+  });
+
   return (
     <Container fluid className="login-bg">
       <Formik
@@ -48,30 +60,31 @@ export default function Login() {
           email: "",
           password: "",
         }}
-        validate={(val) => {
-          const formErr = {};
+        validationSchema={schema}
+        // validate={(val) => {
+        //   const formErr = {};
 
-          // Validate email
-          if (!val.email) {
-            formErr.email = "Por favor, ingresá un correo";
-          } else if (
-            !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(val.email)
-          ) {
-            formErr.email = "Por favor, ingresá un correo válido";
-          }
+        //   // Validate email
+        //   if (!val.email) {
+        //     formErr.email = "Por favor, ingresá un correo";
+        //   } else if (
+        //     !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(val.email)
+        //   ) {
+        //     formErr.email = "Por favor, ingresá un correo válido";
+        //   }
 
-          // Validate password
-          if (!val.password) {
-            formErr.password = "Por favor, ingresá una clave";
-          } else if (
-            !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(val.password)
-          ) {
-            formErr.password =
-              "La clave debe tener un mínimo de seis caracteres e incluir al menos una letra y un número";
-          }
+        //   // Validate password
+        //   if (!val.password) {
+        //     formErr.password = "Por favor, ingresá una clave";
+        //   } else if (
+        //     !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(val.password)
+        //   ) {
+        //     formErr.password =
+        //       "La clave debe tener un mínimo de 6 y un máximo de 50 caracteres e incluir al menos una letra y un número";
+        //   }
 
-          return formErr;
-        }}
+        //   return formErr;
+        // }}
         onSubmit={postingUser}
       >
         {({
