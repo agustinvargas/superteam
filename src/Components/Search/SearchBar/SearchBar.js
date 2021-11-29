@@ -1,87 +1,54 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
 import LoaderBtn from "../../Loaders/Button/LoaderBtn";
-import { baseUrl } from "../../../Utils/APIs/superHero";
-import useNotify from "../../../Hooks/useNotify";
-import { SearchContext } from "../../../Contexts/SearchProvider";
+import { baseUrl } from "../../../utils/api/superHero";
+import useSearch from "../../../hooks/useSearch";
+import useToast from "../../../hooks/useToast";
+import { TOAST_ACTIONS } from "../../../utils/reducers/toastReducer";
 
 export default function SearchBar() {
   const [loader, setLoader] = useState(false);
-  const { setKeyword } = useContext(SearchContext);
-  const { add } = useNotify();
+  const { setKeyword } = useSearch();
+  const { toastDispatch } = useToast();
   const history = useHistory();
 
-  console.log("-");
-
-  async function gettingAPI(searchKeyword) {
+  async function gettingCharacter(userKeyword) {
     try {
       setLoader(true);
-      console.log("--");
-      const query = baseUrl(`search/${searchKeyword}`);
-      const res = await query.get();
-      const characters = res.data.results;
-      if (characters) {
+      const query = baseUrl(`search/${userKeyword}`);
+      const get = await query.get();
+      const data = get.data;
+      const res = data.results;
+      if (res) {
         setKeyword({
-          value: searchKeyword,
-          results: characters,
+          value: userKeyword,
+          results: res,
         });
-        history.push(`/buscar/${searchKeyword}`);
+        history.push(`/buscar/${userKeyword}`);
       } else {
-        add(
-          "Batiproblemas",
-          "No se encontraron resultados. Intentá buscando otro personaje"
-        );
-        // setNotify([
-        //   {
-        //     header: "Batiproblemas",
-        //     body: "No se encontraron resultados. Intentá buscando otro personaje",
-        //   },
-        // ]);
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: "Batiproblemas",
+            message:
+              "No se encontraron resultados. Intentá buscando otro personaje",
+          },
+        });
       }
     } catch (err) {
-      // setNotify([
-      //   {
-      //     header: "API problemas",
-      //     body: `${err}`,
-      //   },
-      // ]);
+      toastDispatch({
+        type: TOAST_ACTIONS.ADD,
+        payload: {
+          title: "API problemas",
+          message: `${err}`,
+        },
+      });
     } finally {
       setLoader(false);
     }
   }
-
-  // Get Superhero API by user search
-  // async function gettingAPI(userSearch) {
-  //   try {
-  //     setLoader(true)(
-  //       // const baseUrl =
-  //       "https://www.superheroapi.com/api.php/10228035059441005/search"
-  //     );
-  //     const res = await axios.get(`${baseUrl}/${userSearch}`);
-  //     const data = res.data.results;
-  //     if (data) {
-  //       setSearch({
-  //         value: userSearch,
-  //         results: data,
-  //       });
-  //       history.push(`/buscar/${userSearch}`);
-  //     } else {
-  //       setNotif({
-  //         header: "Batiproblemas",
-  //         body: "No se encontraron resultados. Intentá buscando otro personaje",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     setNotif({
-  //       header: "API problemas",
-  //       body: `${error}`,
-  //     });
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // }
 
   return (
     <Formik
@@ -101,7 +68,7 @@ export default function SearchBar() {
         return err;
       }}
       onSubmit={(val, { resetForm }) => {
-        gettingAPI(val.search);
+        gettingCharacter(val.search);
         resetForm();
       }}
     >

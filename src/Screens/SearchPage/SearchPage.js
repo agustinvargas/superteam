@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import SearchBar from "../../Components/Search/SearchBar/SearchBar";
-import useTeam from "../../Hooks/useTeam";
+import SearchBar from "../../components/Search/SearchBar/SearchBar";
+import useTeam from "../../hooks/useTeam";
 import "./SearchPage.css";
 
 export default function SearchPage() {

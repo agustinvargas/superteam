@@ -1,6 +1,6 @@
 import React from "react";
-import Instructions from "../../Components/Instructions/Instructions";
-import Footer from "../../Components/Footer/Footer";
+import Instructions from "../../components/Instructions/Instructions";
+import Footer from "../../components/Footer/Footer";
 
 export default function HomePage() {
   return (

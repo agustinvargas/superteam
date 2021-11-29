@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import useTeam from "../../Hooks/useTeam";
+import useTeam from "../../hooks/useTeam";
 
 export default function NavBar() {
   const { team } = useTeam();
@@ -23,7 +23,6 @@ export default function NavBar() {
       >
         <Nav className="mr-auto my-2 my-lg-0" navbarScroll>
           {!(team?.length === 0) && (
-            // PROBAR TEAM?.LENGTH
             <Nav.Link as={Link} to="/equipo">
               Mi equipo
             </Nav.Link>

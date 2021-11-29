@@ -1,14 +1,13 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import NavBar from "../Components/Navbar/Navbar";
-import ToastList from "../Components/Toast/ToastList/ToastList";
-import HeroPage from "../Screens/HeroPage/HeroPage";
-import HomePage from "../Screens/HomePage/HomePage";
-import LoginPage from "../Screens/LoginPage/LoginPage";
-import NotFoundPage from "../Screens/NotFoundPage/NotFoundPage";
-import SearchPage from "../Screens/SearchPage/SearchPage";
-import SearchResultsPage from "../Screens/SearchResultsPage/SearchResultsPage";
-import TeamPage from "../Screens/TeamPage/TeamPage";
+import NavBar from "../components/Navbar/Navbar";
+import HeroPage from "../screens/HeroPage/HeroPage";
+import HomePage from "../screens/HomePage/HomePage";
+import LoginPage from "../screens/LoginPage/LoginPage";
+import NotFoundPage from "../screens/NotFoundPage/NotFoundPage";
+import SearchPage from "../screens/SearchPage/SearchPage";
+import SearchResultsPage from "../screens/SearchResultsPage/SearchResultsPage";
+import TeamPage from "../screens/TeamPage/TeamPage";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -35,7 +34,6 @@ function Router() {
           <Redirect to="/404" />
         </Route>{" "}
       </Switch>
-      <ToastList />
     </BrowserRouter>
   );
 }

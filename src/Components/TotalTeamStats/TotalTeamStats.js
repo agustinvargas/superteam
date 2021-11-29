@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AlertBs from "../Alert/Alert";
 import Chart from "../Chart/Chart";
-import useTeam from "../../Hooks/useTeam";
+import useTeam from "../../hooks/useTeam";
 
 export default function TotalTeamStats() {
   const { team, calcAppearanceAverage, sumPowerstat, calcMax } = useTeam();
@@ -25,7 +25,7 @@ export default function TotalTeamStats() {
               <AlertBs
                 variant={"warning"}
                 text={"Tu equipo debe estar conformado por seis personajes"}
-                link={"/buscador"}
+                link={"/buscar"}
                 linkText={"Buscar más"}
               />
             ) : (

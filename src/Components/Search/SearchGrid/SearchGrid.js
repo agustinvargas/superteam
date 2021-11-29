@@ -1,72 +1,59 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useHistory, useParams } from "react-router";
-import useTeam from "../../../Hooks/useTeam";
-import { SearchContext } from "../../../Contexts/SearchProvider";
-import useNotify from "../../../Hooks/useNotify";
-import { baseUrl } from "../../../Utils/APIs/superHero";
+import useTeam from "../../../hooks/useTeam";
+import { SearchContext } from "../../../contexts/SearchProvider";
+import { baseUrl } from "../../../utils/api/superHero";
 import Loader from "../../Loaders/Spinner/Loader";
+import useToast from "../../../hooks/useToast";
+import { TOAST_ACTIONS } from "../../../utils/reducers/toastReducer";
 
 export default function SearchGrid() {
   const [loader, setLoader] = useState(false);
   const { keyword, setKeyword } = useContext(SearchContext);
   const { keywordSearch } = useParams();
   const { addHero } = useTeam();
-  const { setNotify, add } = useNotify();
+  const { toastDispatch } = useToast();
   const history = useHistory();
-  const notifyWasShowed = useRef(false);
-  const [n, setN] = useState(false);
-
-  console.log("---");
 
   useEffect(() => {
-    async function gettingAPI() {
+    async function gettingCharacters() {
       try {
         setLoader(true);
-        console.log("----");
-        console.log("PARAM S", keywordSearch);
         const query = baseUrl(`search/${keywordSearch}`);
-        const res = await query.get();
-        const characters = res.data.results;
-        console.log(notifyWasShowed);
-        if (characters) {
+        const get = await query.get();
+        const data = get.data;
+        const res = data.results;
+        if (res) {
           setKeyword({
             value: keywordSearch,
-            results: characters,
+            results: res,
           });
-        } else if (n === false) {
-          add(
-            "Batiproblemas",
-            "No se encontraron resultados. Intentá buscando otro personaje"
-          );
-          setN(true);
-          // notifyWasShowed.current = true;
-
-          // setNotify([
-          //   ...notify,
-          //   {
-          //     header: "Batiproblemas",
-          //     body: "No se encontraron resultados. Intentá buscando otro personaje",
-          //   },
-          // ]);
+        } else {
+          toastDispatch({
+            type: TOAST_ACTIONS.ADD,
+            payload: {
+              title: "Batiproblemas",
+              message: "Tu búsqueda no arrojó resultados",
+            },
+          });
           history.push("/buscar");
         }
       } catch (err) {
-        add("API problemas", `${err}`);
-        // setNotify([
-        //   ...notify,
-        //   {
-        //     header: "API problemas",
-        //     body: `${err}`,
-        //   },
-        // ]);
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: "API problemas",
+            message: `${err}`,
+          },
+        });
         history.push("/buscar");
       } finally {
         setLoader(false);
       }
     }
-    gettingAPI();
-  }, [history, keywordSearch, setKeyword, setNotify, add, n]);
+    gettingCharacters();
+  }, [history, keywordSearch, toastDispatch, setKeyword]);
 
   return loader ? (
     <Loader />

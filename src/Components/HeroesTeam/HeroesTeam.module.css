@@ -11,20 +11,20 @@
   height: 350px;
 }
 
-.mybtn {
+.btn {
   width: 100%;
   margin-top: 6px;
 }
 
-.mybtn--detail {
+.btn--detail {
   width: 100%;
 }
 
 @media screen and (min-width: 992px) {
-  .mybtn {
+  .btn {
     width: initial;
   }
-  .mybtn--detail {
+  .btn--detail {
     width: 50%;
   }
   .chart-container {

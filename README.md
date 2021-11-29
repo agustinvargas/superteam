@@ -1,6 +1,6 @@
 <h1>SuperTeam</h1>
-<p>App desarrollada para el challenge de Alkemy (React.js, octubre 2021). La misma permite crear un equipo limitado de superhéroes obteniendo los datos de la API SuperHero: Buscar personajes, agregarlos y/o quitarlos, visualizar sus habilidades y características, entre otras funcionalidades</p>
-<p>App developed for Alkemy's challenge (React.js, October 2021). It allows you to create a team of superheroes by obtaining the data from the SuperHero API: Search for characters, add and / or remove them, view their powerstats and characteristics, among other functionalities</p>
+<p>App desarrollada para el challenge de Alkemy (React.js, 2021). La misma permite crear un equipo limitado de superhéroes obteniendo los datos de la API SuperHero: Buscar personajes, agregarlos y/o quitarlos, visualizar sus habilidades y características, entre otras funcionalidades</p>
+<p>App developed for Alkemy's challenge (React.js, 2021). It allows you to create a team of superheroes by obtaining the data from the SuperHero API: Search for characters, add and / or remove them, view their powerstats and characteristics, among other functionalities</p>
 
 ## Screenshots
 

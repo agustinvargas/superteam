@@ -2,79 +2,44 @@ import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import LoaderBtn from "../Loaders/Button/LoaderBtn";
+import useAuth from "../../hooks/useAuth";
+import useToast from "../../hooks/useToast";
+import { alkemyData, baseUrl } from "../../utils/api/alkemy";
+import { TOAST_ACTIONS } from "../../utils/reducers/toastReducer";
 import "./Login.css";
-import axios from "axios";
-
-// import { baseUrl } from "../../Utils/APIs/alkemy";
-import useAuth from "../../Hooks/useAuth";
-// import { alkemyData } from "../../Utils/APIs/alkemy";
-import useNotify from "../../Hooks/useNotify";
 
 export default function Login() {
   const [loader, setLoader] = useState(false);
-  const notification = useNotify();
   const auth = useAuth();
+  const { toastDispatch } = useToast();
 
-  async function postingAPI() {
+  async function postingUser() {
     try {
       setLoader(true);
-      notification.add("API problemas", "Probando");
-      const baseUrl = "http://challenge-react.alkemy.org/";
-      const res = await axios.post(baseUrl, {
-        // Only valid credentials
-        email: "challenge@alkemy.org",
-        password: "react",
+      const query = baseUrl("");
+      const res = await query.post(alkemyData);
+      const data = res.data;
+      const token = data.token;
+      auth.login(token);
+      toastDispatch({
+        type: TOAST_ACTIONS.ADD,
+        payload: {
+          title: "Batibienvenida",
+          message: "Iniciaste sesión exitosamente",
+        },
       });
-      const userToken = res.data.token;
-      auth.login(userToken);
-
-      // const destination = baseUrl("");
-      // console.log("DESTINO POST", destination.post());
-      // const res = destination.post({
-      //   email: "challenge@alkemy.org",
-      //   password: "react",
-      // });
-      // console.log("ESTO ES RES", res.data);
-      // const userToken = res.data.token;
-      // auth.login(userToken);
-      // localStorage.setItem("userToken", userToken);
-      // setLogin(true);
     } catch (err) {
-      notification.add("API problemas", `${err}`);
+      toastDispatch({
+        type: TOAST_ACTIONS.ADD,
+        payload: {
+          title: "API problemas",
+          message: `${err}`,
+        },
+      });
     } finally {
       setLoader(false);
-      // Uncomment the following lines to force login to avoid API errors and be able to navigate through the app
-      // setLogin(true);
-      // history.push("/");
     }
   }
-  // Post to Alkemy Challenge API
-  // async function postingAPI() {
-  //   try {
-  //     setLoader(true);
-  //     const baseUrl = "http://challenge-react.alkemy.org/";
-  // const res = await axios.post(baseUrl, {
-  //   // Only valid credentials
-  //   email: "challenge@alkemy.org",
-  //   password: "react",
-  // });
-  // const userToken = res.data.token;
-  // localStorage.setItem("userToken", userToken);
-  // setLogin(true);
-  // history.push("/");
-  //   } catch (error) {
-  //     setNotif({
-  //       header: "API problemas",
-  //       body: `${error}`,
-  //     });
-  //   } finally {
-  //     setLoader(false);
-
-  //     // Uncomment the following lines to force login to avoid API errors and be able to navigate through the app
-  //     // setLogin(true);
-  //     // history.push("/");
-  //   }
-  // }
 
   return (
     <Container fluid className="login-bg">
@@ -107,7 +72,7 @@ export default function Login() {
 
           return formErr;
         }}
-        onSubmit={postingAPI}
+        onSubmit={postingUser}
       >
         {({
           handleSubmit,

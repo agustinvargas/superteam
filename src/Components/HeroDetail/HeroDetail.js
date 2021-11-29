@@ -2,40 +2,51 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import Loader from "../Loaders/Spinner/Loader";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { baseUrl } from "../../Utils/APIs/superHero";
-import useNotify from "../../Hooks/useNotify";
+import { baseUrl } from "../../utils/api/superHero";
+import useToast from "../../hooks/useToast";
+import { TOAST_ACTIONS } from "../../utils/reducers/toastReducer";
 
 export default function HeroDetail() {
   const { heroId } = useParams();
+  const { toastDispatch } = useToast();
   const [hero, setHero] = useState(null);
   const [loader, setLoader] = useState(false);
-  const notification = useNotify();
   const history = useHistory();
 
   useEffect(() => {
     async function getCharacter() {
       try {
         setLoader(true);
-        console.log("SE ACTIVO");
         const query = baseUrl(heroId);
         const res = await query.get();
         const data = res["data"];
         if (data.response === "success") {
           setHero(data);
         } else {
-          console.log("AAA");
-          notification.add("Batiproblemas", "No se encontró personaje");
+          toastDispatch({
+            type: TOAST_ACTIONS.ADD,
+            payload: {
+              title: "Batiproblemas",
+              message: "No hubo resultados para tu búsqueda",
+            },
+          });
           history.push("/");
         }
       } catch (err) {
-        notification.add("API problemas", `${err}`);
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: "API problemas",
+            message: `${err}`,
+          },
+        });
         history.push("/");
       } finally {
         setLoader(false);
       }
     }
     getCharacter();
-  }, [heroId, history, notification]);
+  }, [heroId, history, toastDispatch]);
 
   return loader ? (
     <Loader />

@@ -1,11 +1,14 @@
-import React, { createContext, useState } from "react";
-import useNotify from "../Hooks/useNotify";
+import React, { createContext, useReducer } from "react";
+import useToast from "../hooks/useToast";
+import { teamReducer, TEAM_ACTIONS } from "../utils/reducers/teamReducer";
+import { TOAST_ACTIONS } from "../utils/reducers/toastReducer";
 
 export const TeamContext = createContext();
 
 export default function TeamProvider({ children }) {
-  const [team, setTeam] = useState([]);
-  const notify = useNotify();
+  const initialState = [];
+  const [team, teamDispatch] = useReducer(teamReducer, initialState);
+  const { toastDispatch } = useToast();
 
   // Limit of team members
   const teamLimit = 6;
@@ -38,52 +41,85 @@ export default function TeamProvider({ children }) {
   const addHero = (hero) => {
     switch (true) {
       case team.length === teamLimit:
-        notify.add(
-          `No se pudo agregar a ${hero.name}`,
-          "Tu equipo ya está completo"
-        );
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: `No se pudo agregar a ${hero.name}`,
+            message: "Tu equipo ya está completo",
+          },
+        });
         break;
       case team.length === 0:
-        setTeam([hero]);
+        teamDispatch({ type: TEAM_ACTIONS.ADD, payload: hero });
         if (teamLimit - 1 - team.length === 0) {
-          notify.add(
-            `Agregaste a ${hero.name} a tu equipo`,
-            "Completaste tu equipo"
-          );
+          toastDispatch({
+            type: TOAST_ACTIONS.ADD,
+            payload: {
+              title: `Agregaste a ${hero.name} a tu equipo`,
+              message: "Completaste tu equipo",
+            },
+          });
         } else {
-          notify.add(
-            `Agregaste a ${hero.name} a tu equipo`,
-            `Tenés que agregar a ${teamLimit - 1 - team.length} personaje/s más`
-          );
+          toastDispatch({
+            type: TOAST_ACTIONS.ADD,
+            payload: {
+              title: `Agregaste a ${hero.name} a tu equipo`,
+              message: `Tenés que agregar a ${
+                teamLimit - 1 - team.length
+              } personaje/s más`,
+            },
+          });
         }
         break;
       case isAdded(hero.id):
-        notify.add("Batiproblemas", `${hero.name} ya está en tu equipo`);
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: "Batiproblemas",
+            message: `${hero.name} ya está en tu equipo`,
+          },
+        });
         break;
       case alignmentCheck(hero) === "good limit":
-        notify.add(
-          "Batiproblemas",
-          "Hay tres héroes en tu equipo. Es momento de agregar un villano"
-        );
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: "Batiproblemas",
+            message:
+              "Hay tres héroes en tu equipo. Es momento de agregar un villano",
+          },
+        });
         break;
       case alignmentCheck(hero) === "bad limit":
-        notify.add(
-          "Batiproblemas",
-          "Hay tres villanos en tu equipo. Es momento de agregar un héroe"
-        );
+        toastDispatch({
+          type: TOAST_ACTIONS.ADD,
+          payload: {
+            title: "Batiproblemas",
+            message:
+              "Hay tres villanos en tu equipo. Es momento de agregar un héroe",
+          },
+        });
         break;
       default:
-        setTeam([...team, hero]);
+        teamDispatch({ type: TEAM_ACTIONS.ADD, payload: hero });
         if (teamLimit - 1 - team.length === 0) {
-          notify.add(
-            `Agregaste a ${hero.name} a tu equipo`,
-            "Completaste tu equipo"
-          );
+          toastDispatch({
+            type: TOAST_ACTIONS.ADD,
+            payload: {
+              title: `Agregaste a ${hero.name} a tu equipo`,
+              message: "Completaste tu equipo",
+            },
+          });
         } else {
-          notify.add(
-            `Agregaste a ${hero.name} a tu equipo`,
-            `Tenés que agregar a ${teamLimit - 1 - team.length} personaje/s más`
-          );
+          toastDispatch({
+            type: TOAST_ACTIONS.ADD,
+            payload: {
+              title: `Agregaste a ${hero.name} a tu equipo`,
+              message: `Tenés que agregar a ${
+                teamLimit - 1 - team.length
+              } personaje/s más`,
+            },
+          });
         }
         break;
     }
@@ -91,11 +127,17 @@ export default function TeamProvider({ children }) {
 
   // Remove a hero from the team
   const removeHero = (hero) => {
-    setTeam(team.filter((el) => el.id !== hero.id));
-    notify.add(
-      `Quitaste a ${hero.name} de tu equipo`,
-      `Tenés que agregar a ${teamLimit + 1 - team.length} personajes más`
-    );
+    teamDispatch({ type: TEAM_ACTIONS.REMOVE, payload: hero });
+
+    toastDispatch({
+      type: TOAST_ACTIONS.ADD,
+      payload: {
+        title: `Quitaste a ${hero.name} de tu equipo`,
+        message: `Tenés que agregar a ${
+          teamLimit + 1 - team.length
+        } personajes más`,
+      },
+    });
   };
 
   // Calculate total powerstats
@@ -138,7 +180,6 @@ export default function TeamProvider({ children }) {
 
   const contextValue = {
     team,
-    // setTeam,
     addHero,
     removeHero,
     sumPowerstat,
