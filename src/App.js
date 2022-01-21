@@ -1,12 +1,12 @@
 // Router
-import Router from "./router/Router";
+import Router from './router/Router';
 // Context
-import AuthProvider from "./contexts/AuthProvider";
-import TeamProvider from "./contexts/TeamProvider";
-import SearchProvider from "./contexts/SearchProvider";
-import { ToastProvider } from "./contexts/ToastProvider";
+import AuthProvider from './contexts/AuthProvider';
+import TeamProvider from './contexts/TeamProvider';
+import SearchProvider from './contexts/SearchProvider';
+import { ToastProvider } from './contexts/ToastProvider';
 // Bootstrap Styles
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
